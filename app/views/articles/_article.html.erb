@@ -1,4 +1,25 @@
 <div id="<%= dom_id article %>">
+
+  <p>
+    <strong>Cod:</strong>
+    <%= article.cod %>
+  </p>
+
+  <p>
+    <strong>Brand:</strong>
+    <%= article.model.brand.name %>
+  </p>
+
+  <p>
+    <strong>Model:</strong>
+    <%= article.model.name %>
+  </p>
+
+  <p>
+    <strong>Color:</strong>
+    <%= article.color.name %>
+  </p>
+
   <p>
     <strong>Num:</strong>
     <%= article.num %>
@@ -11,22 +32,13 @@
 
   <p>
     <strong>Price:</strong>
-    <%= article.price %>
+    $<%= article.price %>
   </p>
 
-  <p>
-    <strong>Model:</strong>
-    <%= article.model_id %>
-  </p>
+  
 
-  <p>
-    <strong>Color:</strong>
-    <%= article.color_id %>
-  </p>
+  
 
-  <p>
-    <strong>Cod:</strong>
-    <%= article.cod %>
-  </p>
+  
 
 </div>
