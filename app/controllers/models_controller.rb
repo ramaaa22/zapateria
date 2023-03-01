@@ -22,9 +22,10 @@ class ModelsController < ApplicationController
 
   # POST /models or /models.json
   def create
-    puts "la marca es #{@brand}"
-    @model = Model.new(model_params)
-
+    @model = Model.new(model_params)  
+    if exists_cod?
+      return
+    end
     respond_to do |format|
       if @model.save
         format.html { redirect_to model_url(@model), notice: "Model was successfully created." }
@@ -73,5 +74,15 @@ class ModelsController < ApplicationController
     def get_brand
       brand_id = params[:model][:brand_id]
       @brand = Brand.find(brand_id)
+    end
+
+    def exists_cod?
+      code_to_find = model_params[:cod]
+      found = Model.find_by cod: code_to_find
+      if (found)
+        return found.brand_id == @brand.id
+      end
+      return false
+
     end
 end
