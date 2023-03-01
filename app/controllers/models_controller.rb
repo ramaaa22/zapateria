@@ -1,4 +1,5 @@
 class ModelsController < ApplicationController
+  before_action :get_brand, only: %i[ create ]
   before_action :set_model, only: %i[ show edit update destroy ]
 
   # GET /models or /models.json
@@ -21,6 +22,7 @@ class ModelsController < ApplicationController
 
   # POST /models or /models.json
   def create
+    puts "la marca es #{@brand}"
     @model = Model.new(model_params)
 
     respond_to do |format|
@@ -66,5 +68,10 @@ class ModelsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def model_params
       params.require(:model).permit(:name, :cod, :brand_id, :category_id)
+    end
+
+    def get_brand
+      brand_id = params[:model][:brand_id]
+      @brand = Brand.find(brand_id)
     end
 end
