@@ -1,5 +1,7 @@
 class ModelsController < ApplicationController
-  before_action :get_brand, only: %i[ create ]
+  before_action :get_brand, only: %i[ create update]
+  before_action :get_brands, only: %i[ new create ]
+  before_action :get_categories, only: %i[ new create]
   before_action :set_model, only: %i[ show edit update destroy ]
 
   # GET /models or /models.json
@@ -39,6 +41,10 @@ class ModelsController < ApplicationController
 
   # PATCH/PUT /models/1 or /models/1.json
   def update
+    if exists_cod?
+      return
+    end
+
     respond_to do |format|
       if @model.update(model_params)
         format.html { redirect_to model_url(@model), notice: "Model was successfully updated." }
@@ -83,6 +89,19 @@ class ModelsController < ApplicationController
         return found.brand_id == @brand.id
       end
       return false
+    end
 
+    def get_brands
+      @brands = {}
+      Brand.all.each do |brand|
+        @brands["#{brand.name}"]= brand.id
+      end
+    end
+
+    def get_categories
+      @categories = {}
+      Category.all.each do |category|
+        @categories["#{category.name}"] = category.id
+      end
     end
 end
