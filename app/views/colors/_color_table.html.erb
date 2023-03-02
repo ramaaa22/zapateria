@@ -1,0 +1,14 @@
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Action</th>
+    </tr>
+    <% colors.each do |color| %>
+      <tr>
+        <td><%= color.name %></td>
+        <td><%= color.cod %></td>
+        <td><%= link_to "Show this color", color %></td>
+      </tr>
+    <% end %>
+  </table>

@@ -1,8 +1,8 @@
 class ArticlesController < ApplicationController
   before_action :get_colors, only: %i[ edit update new create]
   before_action :get_models, only: %i[ edit update new create]
-
   before_action :set_article, only: %i[ show edit update destroy ]
+  #before_action :get_code, only: %i[ show ]
 
   # GET /articles or /articles.json
   def index
@@ -61,6 +61,7 @@ class ArticlesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -73,6 +74,12 @@ class ArticlesController < ApplicationController
       params.require(:article).permit(:num, :stock, :price, :model_id, :color_id, :cod)
     end
 
+    def get_models
+      @model_options = Model.all.map {|model| ["#{model.brand.name}-#{model.name}", model.id]}
+    end
+
+  
+
     def get_colors
       @colors = {}
       Color.all.each do |color|
@@ -80,30 +87,18 @@ class ArticlesController < ApplicationController
       end
     end
 
-    def get_models
-      @models = {}
-      Model.all.each do |model|
-        @models["#{model.brand.name}-#{model.name}"] = model.id
-      end
-    end
-
-    def get_code
-      model = Model.find(params[:article][:model_id])
-      brand = Brand.find(model.brand_id)
-      color = Color.find(params[:article][:color_id])
-      cod = brand.cod + model.cod + color.cod
-    end
 
     def save_articles
+      puts "params #{params[:article]}"
       from = params[:article][:from]
       to = params[:article][:to]
       range = Range.new(from.to_i,to.to_i)
       puts "range #{range}"
-      partial_code = get_code
+      #partial_code = get_code
       ok = true
       range.each do |num|
         @article = Article.new(article_params)
-        @article[:cod]= partial_code + num.to_s
+        #@article[:cod]= partial_code + num.to_s
         @article[:num] = num
         if !@article.save
           ok=false       

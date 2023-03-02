@@ -1,0 +1,20 @@
+<table>
+    <tr>
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Cod</th>
+      <th>Stock</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+    <% articles.each do |article| %>
+      <tr>
+        <td><%= article.model.brand.name %></td>
+        <td><%= article.model.name %></td>
+        <td><%= article.get_code %></td>
+        <td><%= article.stock %></td>
+        <td>$<%= article.price %></td>
+        <td><%= link_to "Show this article", article %></td>
+      </tr>
+    <% end %>
+  </table>

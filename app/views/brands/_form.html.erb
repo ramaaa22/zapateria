@@ -2,7 +2,6 @@
   <% if brand.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(brand.errors.count, "error") %> prohibited this brand from being saved:</h2>
-
       <ul>
         <% brand.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -19,6 +18,10 @@
   <div>
     <%= form.label :cod, style: "display: block" %>
     <%= form.text_field :cod %>
+  </div>
+  <div>
+    <%= label_tag(:active, "Active") %>
+    <%= form.check_box :active %>
   </div>
 
   <div>

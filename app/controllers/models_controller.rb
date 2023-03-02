@@ -1,7 +1,7 @@
 class ModelsController < ApplicationController
-  before_action :get_brand, only: %i[ create update]
-  before_action :get_brands, only: %i[ new create ]
-  before_action :get_categories, only: %i[ new create]
+  before_action :get_brand, only: %i[ create ]
+  before_action :get_brands, only: %i[ edit update new create ]
+  before_action :get_categories, only: %i[ edit update new create]
   before_action :set_model, only: %i[ show edit update destroy ]
 
   # GET /models or /models.json
@@ -11,6 +11,7 @@ class ModelsController < ApplicationController
 
   # GET /models/1 or /models/1.json
   def show
+    @articles = @model.articles
   end
 
   # GET /models/new
@@ -93,7 +94,7 @@ class ModelsController < ApplicationController
 
     def get_brands
       @brands = {}
-      Brand.all.each do |brand|
+      Brand.active.all.each do |brand|
         @brands["#{brand.name}"]= brand.id
       end
     end

@@ -1,6 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @brand %>
+<% if @brand.models.length > 0 %>
+  <%= render 'models/model_table', models:@brand.models %>
+<% end %>
 
 <div>
   <%= link_to "Edit this brand", edit_brand_path(@brand) %> |

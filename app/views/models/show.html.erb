@@ -1,6 +1,11 @@
-<p style="color: green"><%= notice %></p>
 
 <%= render @model %>
+
+
+<% if @articles.length>0%>
+  h2>Articles for <%= @model.name %></h1>
+  <%= render 'articles/article_table',  articles: @articles%>
+<% end %>
 
 <div>
   <%= link_to "Edit this model", edit_model_path(@model) %> |

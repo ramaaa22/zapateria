@@ -37,10 +37,17 @@ class BrandsController < ApplicationController
   # PATCH/PUT /brands/1 or /brands/1.json
   def update
     respond_to do |format|
+      if @brand.models.length>0 && brand_params[:active]=="0"
+        puts "entro aca"
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @brand.errors, status: :unprocessable_entity }
+        return
+      end
       if @brand.update(brand_params)
         format.html { redirect_to brand_url(@brand), notice: "Brand was successfully updated." }
         format.json { render :show, status: :ok, location: @brand }
       else
+        puts "errorreeees #{@brand.errors}"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @brand.errors, status: :unprocessable_entity }
       end
@@ -66,6 +73,6 @@ class BrandsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def brand_params
-      params.require(:brand).permit(:name, :cod)
+      params.require(:brand).permit(:name, :cod, :active)
     end
 end
