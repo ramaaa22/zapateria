@@ -9,7 +9,7 @@
     </tr>
     <% articles.each do |article| %>
       <tr>
-        <td><%= article.model.brand.name %></td>
+        <td><%= article.brand.name %></td>
         <td><%= article.model.name %></td>
         <td><%= article.get_code %></td>
         <td><%= article.stock %></td>

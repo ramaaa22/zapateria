@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :get_colors, only: %i[ edit update new create]
   before_action :get_models, only: %i[ edit update new create]
+  before_action :get_brands, only: %i[ edit update new create]
   before_action :set_article, only: %i[ show edit update destroy ]
   #before_action :get_code, only: %i[ show ]
 
@@ -24,10 +25,6 @@ class ArticlesController < ApplicationController
 
   # POST /articles or /articles.json
   def create
-    #@article = Article.new(article_params)
-    
-    #@article[:cod]= get_code
-
     respond_to do |format|
       if save_articles
         format.html { redirect_to articles_url, notice: "Article was successfully created." }
@@ -78,27 +75,29 @@ class ArticlesController < ApplicationController
       @model_options = Model.all.map {|model| ["#{model.brand.name}-#{model.name}", model.id]}
     end
 
+    def get_brands
+      @brands = {}
+      Model.all.each do |model|
+        @brands[model.brand.name]=model.brand.id
+      end
+    end
+
   
 
     def get_colors
-      @colors = {}
-      Color.all.each do |color|
-        @colors["#{color.name}"] = color.id
-      end
+      @color_options = Color.all.map {|color| ["#{color.name}", color.id]}
+
     end
 
 
     def save_articles
-      puts "params #{params[:article]}"
       from = params[:article][:from]
       to = params[:article][:to]
       range = Range.new(from.to_i,to.to_i)
       puts "range #{range}"
-      #partial_code = get_code
       ok = true
       range.each do |num|
         @article = Article.new(article_params)
-        #@article[:cod]= partial_code + num.to_s
         @article[:num] = num
         if !@article.save
           ok=false       

@@ -25,12 +25,13 @@
 
   <div>
     <%= form.label :color_id, style: "display:block" %>
-    <%= form.select :color_id, @colors %>
+    <%= form.select :color_id, @color_options %>
   </div>
 
+
   <div>
-      <%= form.label :model_id, style: "display:block" %>
-     <%= form.select(:model_id, @model_options) %>
+    <%= form.label :model_id, style: "display:block" %>
+    <%= form.select(:model_id, @model_options) %>
   </div>
 
   <div>

@@ -49,12 +49,14 @@ class ColorsController < ApplicationController
 
   # DELETE /colors/1 or /colors/1.json
   def destroy
-    @color.destroy
-
-    respond_to do |format|
-      format.html { redirect_to colors_url, notice: "Color was successfully destroyed." }
-      format.json { head :no_content }
+    if @color.articles.empty?
+      @color.destroy
+      respond_to do |format|
+        format.html { redirect_to colors_url, notice: "Color was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
+    
   end
 
   private

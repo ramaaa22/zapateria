@@ -56,7 +56,7 @@ class BrandsController < ApplicationController
 
   # DELETE /brands/1 or /brands/1.json
   def destroy
-    if !@brand.models
+    if @brand.models.empty?
       @brand.destroy
       respond_to do |format|
         format.html { redirect_to brands_url, notice: "Brand was successfully destroyed." }
