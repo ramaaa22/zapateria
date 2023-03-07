@@ -1,9 +1,7 @@
 class ArticlesController < ApplicationController
-  before_action :get_colors, only: %i[ edit update new create]
-  before_action :get_models, only: %i[ edit update new create]
-  before_action :get_brands, only: %i[ edit update new create]
+  before_action :get_colors, only: %i[ new create]
+  before_action :get_models, only: %i[ new create]
   before_action :set_article, only: %i[ show edit update destroy ]
-  #before_action :get_code, only: %i[ show ]
 
   # GET /articles or /articles.json
   def index
@@ -52,7 +50,6 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1 or /articles/1.json
   def destroy
     @article.destroy
-
     respond_to do |format|
       format.html { redirect_to articles_url, notice: "Article was successfully destroyed." }
       format.json { head :no_content }
@@ -68,27 +65,17 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:num, :stock, :price, :model_id, :color_id, :cod)
+      params.require(:article).permit(:stock, :price, :model_id, :color_id, :cod)
     end
 
     def get_models
-      @model_options = Model.all.map {|model| ["#{model.brand.name}-#{model.name}", model.id]}
+      @models = Model.all
     end
-
-    def get_brands
-      @brands = {}
-      Model.all.each do |model|
-        @brands[model.brand.name]=model.brand.id
-      end
-    end
-
   
 
     def get_colors
-      @color_options = Color.all.map {|color| ["#{color.name}", color.id]}
-
+      @colors = Color.all
     end
-
 
     def save_articles
       from = params[:article][:from]
@@ -97,11 +84,16 @@ class ArticlesController < ApplicationController
       puts "range #{range}"
       ok = true
       range.each do |num|
-        @article = Article.new(article_params)
-        @article[:num] = num
-        if !@article.save
-          ok=false       
-        end 
+        article = Article.new(article_params)
+        article[:num] = num
+        if !article.exists?
+          puts "existe"
+          if !article.save
+            ok=false       
+          end 
+        else
+          puts "no existe"
+        end
       end
       ok
     end

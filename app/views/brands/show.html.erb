@@ -1,7 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @brand %>
-<% if @brand.models.length > 0 %>
+
+<% if @brand.models.any? %>
   <%= render 'models/model_table', models:@brand.models %>
 <% end %>
 

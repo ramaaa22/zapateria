@@ -1,3 +1,7 @@
+<% if color.errors.any? %>
+  <%= render 'layouts/errors', errors: color.errors %>
+<% end %>
+
 <div id="<%= dom_id color %>">
   <p>
     <strong>Cod:</strong>

@@ -1,3 +1,7 @@
+<% if brand.errors.any? %>
+  <%= render 'layouts/errors' , errors: brand.errors %>
+<% end %>
+
 <div id="<%= dom_id brand %>">
   <p>
     <strong>Name:</strong>
@@ -7,11 +11,6 @@
   <p>
     <strong>Cod:</strong>
     <%= brand.cod %>
-  </p>
-
-  <p>
-    <strong>Active:</strong>
-    <%= brand.active %>
   </p>
 
 

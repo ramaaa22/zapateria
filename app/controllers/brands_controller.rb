@@ -47,7 +47,6 @@ class BrandsController < ApplicationController
         format.html { redirect_to brand_url(@brand), notice: "Brand was successfully updated." }
         format.json { render :show, status: :ok, location: @brand }
       else
-        puts "errorreeees #{@brand.errors}"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @brand.errors, status: :unprocessable_entity }
       end
@@ -56,11 +55,13 @@ class BrandsController < ApplicationController
 
   # DELETE /brands/1 or /brands/1.json
   def destroy
-    if @brand.models.empty?
-      @brand.destroy
-      respond_to do |format|
+    respond_to do |format|
+      if @brand.destroy
         format.html { redirect_to brands_url, notice: "Brand was successfully destroyed." }
         format.json { head :no_content }
+      else
+        format.html { render :show, status: :unprocessable_entity }
+        format.json { render json: @brand.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -73,6 +74,6 @@ class BrandsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def brand_params
-      params.require(:brand).permit(:name, :cod, :active)
+      params.require(:brand).permit(:name, :cod)
     end
 end

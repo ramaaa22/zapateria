@@ -13,4 +13,9 @@ class Article < ApplicationRecord
     color = Color.find(color_id)
     cod = brand.cod + model.cod + color.cod + num.to_s
   end
+
+  def exists?
+    article = Article.where(num: num, color: color.id, model: model.id)
+    !article.empty?
+  end
 end
