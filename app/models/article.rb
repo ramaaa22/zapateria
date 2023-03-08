@@ -21,6 +21,6 @@ class Article < ApplicationRecord
     !article.empty?
   end
   
-  scope :ordered, -> { order(:model_id, :color_id, :num) }
+  scope :ordered, -> { includes(:brand).order('brands.cod ASC').includes(:model).order('models.cod ASC').includes(:color).order('colors.cod ASC').order(:num) }
 
 end
