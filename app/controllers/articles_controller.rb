@@ -1,11 +1,11 @@
 class ArticlesController < ApplicationController
-  before_action :get_colors, only: %i[ new create]
+  before_action :get_colors, only: %i[ new create copy save_copy]
   before_action :get_models, only: %i[ new create]
   before_action :set_article, only: %i[ show edit update destroy copy save_copy ]
 
   # GET /articles or /articles.json
   def index
-    @articles = Article.all
+    @articles = Article.all.ordered
   end
 
   # GET /articles/1 or /articles/1.json
@@ -58,8 +58,6 @@ class ArticlesController < ApplicationController
   end
 
   def copy
-    puts 'helloooooo'
-    puts "articulo copy #{@article}"
   end
 
   def save_copy
@@ -98,19 +96,22 @@ class ArticlesController < ApplicationController
     def save_articles
       from = params[:from]
       to = params[:to]
+      color_id = params[:color]
+      color = Color.find(color_id)
       range = Range.new(from.to_i,to.to_i)
       ok = true
       array_to_save = []
+      
       range.each do |num|
-        if !@article.exists?(num)
+        if !@article.exists?(num, color)
           article_to_save = {
-            "num"=> num,
             "stock"=>@article.stock,
             "price"=>@article.price,
             "model"=>@article.model,
-            "color"=>@article.color
+            "num" =>  num, 
+            "color" => color
           }
-          array_to_save << article_to_save
+          array_to_save.push(article_to_save)
         end
       end
       array_to_save.each do |elem|

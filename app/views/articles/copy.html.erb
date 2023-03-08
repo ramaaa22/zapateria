@@ -3,23 +3,23 @@
 <%= render @article %>
 
 <%= form_with url:save_copy_article_path do |form| %>
-  <% if @article.errors.any? %>
-    <%= render 'layouts/errors', errors: @article.errors%>
-  <% end %>
+  
+    <div>
+        <%= form.label :color, style: "display: block" %>
+        <%= form.collection_select :color , @colors, :id , :name %>
+    </div>
 
+    <div>
+        <%= form.label :from, style: "display: block" %>
+        <%= form.number_field :from , :required => 'required' %>
+    </div>
 
-  <div>
-    <%= form.label :from, style: "display: block" %>
-    <%= form.number_field :from %>
-  </div>
+  
 
-  <div>
-    <%= form.label :to, style: "display: block" %>
-    <%= form.number_field :to %>
-  </div>
-
- 
-
+    <div>
+        <%= form.label :to, style: "display: block" %>
+        <%= form.number_field :to, :required => 'required' %>
+    </div>
 
   <div>
     <%= form.submit "Copy articles" %>

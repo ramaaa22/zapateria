@@ -16,9 +16,11 @@ class Article < ApplicationRecord
     cod = brand.cod + model.cod + color.cod + num.to_s
   end
 
-  def exists?(num)
-    article = Article.where(num: num, color: color.id, model: model.id)
+  def exists?(num, color)
+    article = Article.where(num: num, color: color, model: model.id)
     !article.empty?
   end
   
+  scope :ordered, -> { order(:model_id, :color_id, :num) }
+
 end
