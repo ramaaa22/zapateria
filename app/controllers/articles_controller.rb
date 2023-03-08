@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :get_colors, only: %i[ new create]
   before_action :get_models, only: %i[ new create]
-  before_action :set_article, only: %i[ show edit update destroy ]
+  before_action :set_article, only: %i[ show edit update destroy copy save_copy ]
 
   # GET /articles or /articles.json
   def index
@@ -23,8 +23,9 @@ class ArticlesController < ApplicationController
 
   # POST /articles or /articles.json
   def create
+    @article = Article.new(article_params)
     respond_to do |format|
-      if save_articles
+      if @article.save
         format.html { redirect_to articles_url, notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @article }
       else
@@ -55,6 +56,23 @@ class ArticlesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def copy
+    puts 'helloooooo'
+    puts "articulo copy #{@article}"
+  end
+
+  def save_copy
+    puts "from #{params[:from]}"
+    puts "to #{params[:to]}"
+    puts "article #{@article}"
+    respond_to do |format|
+      if save_articles
+        format.html { redirect_to articles_url, notice: "Articles were successfully copied." }
+        format.json { render :show, status: :created, location: @article }
+      end
+    end
+  end
   
 
   private
@@ -65,7 +83,7 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:stock, :price, :model_id, :color_id, :cod)
+      params.require(:article).permit(:stock, :price, :model_id, :color_id, :cod, :num)
     end
 
     def get_models
@@ -78,22 +96,25 @@ class ArticlesController < ApplicationController
     end
 
     def save_articles
-      from = params[:article][:from]
-      to = params[:article][:to]
+      from = params[:from]
+      to = params[:to]
       range = Range.new(from.to_i,to.to_i)
-      puts "range #{range}"
       ok = true
+      array_to_save = []
       range.each do |num|
-        article = Article.new(article_params)
-        article[:num] = num
-        if !article.exists?
-          puts "existe"
-          if !article.save
-            ok=false       
-          end 
-        else
-          puts "no existe"
+        if !@article.exists?(num)
+          article_to_save = {
+            "num"=> num,
+            "stock"=>@article.stock,
+            "price"=>@article.price,
+            "model"=>@article.model,
+            "color"=>@article.color
+          }
+          array_to_save << article_to_save
         end
+      end
+      array_to_save.each do |elem|
+        Article.create(elem)
       end
       ok
     end

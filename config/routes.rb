@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   get 'admin/index'
-  resources :articles
+  resources :articles do
+    member do
+      get 'copy'
+      post 'save_copy'
+    end
+  end
   resources :models
   resources :brands
   resources :categories

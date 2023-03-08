@@ -1,0 +1,27 @@
+<h1>Copy articles</h1>
+
+<%= render @article %>
+
+<%= form_with url:save_copy_article_path do |form| %>
+  <% if @article.errors.any? %>
+    <%= render 'layouts/errors', errors: @article.errors%>
+  <% end %>
+
+
+  <div>
+    <%= form.label :from, style: "display: block" %>
+    <%= form.number_field :from %>
+  </div>
+
+  <div>
+    <%= form.label :to, style: "display: block" %>
+    <%= form.number_field :to %>
+  </div>
+
+ 
+
+
+  <div>
+    <%= form.submit "Copy articles" %>
+  </div>
+<% end %>

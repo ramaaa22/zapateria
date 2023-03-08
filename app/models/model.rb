@@ -15,8 +15,13 @@ class Model < ApplicationRecord
 
   validates :name , presence: true
   validates :cod , presence: true , numericality: { only_integer: true }, length: { is: 3}
-  validates :brand, presence:true
-  validates :category, presence:true
+  validates :brand_id , inclusion: Brand.all.ids
+  validates :category_id, inclusion: Category.all.ids
   validates_with ModelValidator
+
+
+  def get_brands
+    @brands = Brand.all
+  end
 
 end
