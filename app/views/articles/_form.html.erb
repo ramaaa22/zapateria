@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :model_id, style: "display:block" %>
-    <%= form.collection_select :model_id , @models, :id , :name, {include_blank: 'Select a model'} %>
+    <%= form.collection_select :model_id , @models, :id , :brand_with_model, {include_blank: 'Select a model'} %>
   </div>
 
   </div>

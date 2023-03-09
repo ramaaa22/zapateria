@@ -5,7 +5,7 @@
 
 <% if @model.articles.any? %>
   <h2>Articles for <%= @model.name %></h1>
-  <%= render 'articles/article_table',  articles: @model.articles%>
+  <%= render 'articles/article_table',  articles: @articles%>
 <% end %>
 
 <div>

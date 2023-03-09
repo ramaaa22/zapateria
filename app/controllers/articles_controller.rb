@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
     end
 
     def get_models
-      @models = Model.all
+      @models = Model.ordered
     end
   
 

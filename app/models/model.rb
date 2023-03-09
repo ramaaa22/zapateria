@@ -24,4 +24,13 @@ class Model < ApplicationRecord
     @brands = Brand.all
   end
 
+  def brand_with_model
+    "#{brand.name} - #{cod}"
+  end
+
+  scope :ordered, -> { includes(:brand).order('brands.cod ASC').order(:cod) }
+
+  scope :with_articles, -> {joins(:articles).where('stock > ?', 0).group(:model_id)}
+
+
 end

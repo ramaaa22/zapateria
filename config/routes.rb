@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :carts
+  resources :line_items
+  resources :store
+
   get 'admin/index'
   resources :articles do
     member do

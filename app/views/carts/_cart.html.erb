@@ -1,0 +1,14 @@
+<div id="<%= dom_id cart %>">
+
+    <ul>
+        <% @cart.line_items.each do |line_item| %>
+            <li>
+                <%=line_item.article.model.name %>
+                <%=line_item.article.num %>
+                <%=line_item.article.color.name %>
+                <%=line_item.quantity %>
+            </li>
+        <% end %>
+    </ul>
+
+</div>

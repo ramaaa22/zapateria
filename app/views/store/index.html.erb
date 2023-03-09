@@ -1,0 +1,13 @@
+
+<div class="cards">
+    <% @models.each do |model| %>
+        <div class="card">
+            <img src="jeans3.jpg" alt="Denim Jeans" style="width:100%">
+            <h1> <%=model.name%> </h1>
+            <p class="price">$19.99</p>
+            <p>Extra information</p>
+            <%= button_to "Buy", store_path(model), :method => :get %>
+        </div>
+    <% end %>
+    
+</div>

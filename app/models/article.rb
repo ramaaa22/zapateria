@@ -23,4 +23,9 @@ class Article < ApplicationRecord
   
   scope :ordered, -> { includes(:brand).order('brands.cod ASC').includes(:model).order('models.cod ASC').includes(:color).order('colors.cod ASC').order(:num) }
 
+  scope :active, -> { where('stock > ?', 0) }
+
+
+  scope :group_by_colors, -> {group(:color_id)}
+
 end
