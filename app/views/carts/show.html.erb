@@ -3,8 +3,7 @@
 <%= render @cart %>
 
 <div>
-  <%= link_to "Edit this cart", edit_cart_path(@cart) %> |
-  <%= link_to "Back to carts", carts_path %>
+  <%= button_to "Continue shopping", store_index_path, method: 'get' %>
 
-  <%= button_to "Destroy this cart", @cart, method: :delete %>
+  <%= button_to "Go to pay", new_order_path, method: 'get' %>
 </div>

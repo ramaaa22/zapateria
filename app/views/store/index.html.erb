@@ -2,12 +2,16 @@
 <div class="cards">
     <% @models.each do |model| %>
         <div class="card">
-            <img src="jeans3.jpg" alt="Denim Jeans" style="width:100%">
-            <h1> <%=model.name%> </h1>
-            <p class="price">$19.99</p>
-            <p>Extra information</p>
+            <h1> <%= model.name%> </h1>
+            <p class="price"> <%= model.brand.name %> </p>
+            <p> <%= model.category.name%> </p>
             <%= button_to "Buy", store_path(model), :method => :get %>
         </div>
     <% end %>
-    
+</div>
+
+<div>
+    <% if @cart.line_items.any?%>
+        <%= link_to "Go to pay", new_order_path %>
+    <% end %>
 </div>

@@ -1,14 +1,19 @@
 <div id="<%= dom_id cart %>">
 
-    <ul>
-        <% @cart.line_items.each do |line_item| %>
-            <li>
-                <%=line_item.article.model.name %>
-                <%=line_item.article.num %>
-                <%=line_item.article.color.name %>
-                <%=line_item.quantity %>
-            </li>
-        <% end %>
-    </ul>
+      
+  
+  <main class="leaderboard__profiles">
+    <% @cart.line_items.each do |line_item| %>
+        <article class="leaderboard__profile">
+            <span class="leaderboard__name"> <%= line_item.article.brand.name %> </span>
+            <span class="leaderboard__name"> <%= line_item.article.model.name %> <span>$<%= line_item.total_price %></span> </span>
+            <span class="leaderboard__value">  Nº<%= line_item.article.num %> <span><%= line_item.article.color.name %></span></span>
+        </article>
+
+    <% end %>
+    
+  </main>
+  <h2>Total: <%=number_to_currency(@cart.total_price) %> </h2>
+</div>
 
 </div>
