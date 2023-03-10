@@ -27,11 +27,8 @@ class OrdersController < ApplicationController
     puts "entro aca"
     @order = Order.new(order_params)
     @order.add_articles_in_cart(@cart)
-    puts "esto #{@order}"
     respond_to do |format|
       if @order.save
-        Cart.destroy(session[:cart_id])
-        session[:cart_id] = nil
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else

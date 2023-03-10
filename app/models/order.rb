@@ -8,7 +8,6 @@ class Order < ApplicationRecord
         cart.line_items.each do |line_item|
             line_item.cart_id = nil
             article = line_item.article
-            puts "esto #{article.stock}"
             article.stock -= line_item.quantity
             article.save
             line_items << line_item

@@ -1,14 +1,13 @@
 module CurrentCart
     private
         def set_cart
-            @cart = Cart.find(current_user.id)
-        rescue
-            ActiveRecord::RecordNotFound
+            puts "current user #{current_user.id}"
+            @cart = Cart.find_by("user_id"=>current_user.id)
+            if @cart.nil?
                 @cart = Cart.new
                 user = User.find(current_user.id)
                 @cart.user = User.find(current_user.id)
                 @cart.save
-                #current_user.email
-                #session[:cart_id] = @cart.id
+            end
         end
 end
