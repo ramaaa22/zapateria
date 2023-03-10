@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
   include CurrentCart
   before_action :set_cart
   before_action :set_order, only: %i[ show edit update destroy ]

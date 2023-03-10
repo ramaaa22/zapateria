@@ -1,5 +1,5 @@
 class ModelsController < ApplicationController
-  #before_action :get_brand, only: %i[ create ]
+  before_action :authenticate_user!
   before_action :get_brands, only: %i[ edit update new create ]
   before_action :get_categories, only: %i[ edit update new create]
   before_action :set_model, only: %i[ show edit update destroy ]
@@ -29,8 +29,8 @@ class ModelsController < ApplicationController
 
     respond_to do |format|
       if @model.save
-        format.html { redirect_to model_url(@model), notice: "Model was successfully created." }
-        format.json { render :show, status: :created, location: @model }
+        format.html { redirect_to models_path, notice: "Model was successfully created." }
+        format.json { render :index, status: :created, location: @model }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @model.errors, status: :unprocessable_entity }

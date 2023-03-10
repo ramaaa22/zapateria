@@ -1,4 +1,5 @@
 class BrandsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_brand, only: %i[ show edit update destroy ]
 
   # GET /brands or /brands.json
@@ -25,8 +26,8 @@ class BrandsController < ApplicationController
 
     respond_to do |format|
       if @brand.save
-        format.html { redirect_to brand_url(@brand), notice: "Brand was successfully created." }
-        format.json { render :show, status: :created, location: @brand }
+        format.html { redirect_to brands_path, notice: "Brand was successfully created." }
+        format.json { render :index, status: :created, location: @brand }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @brand.errors, status: :unprocessable_entity }

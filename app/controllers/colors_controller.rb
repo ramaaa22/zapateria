@@ -1,4 +1,5 @@
 class ColorsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_color, only: %i[ show edit update destroy ]
 
   # GET /colors or /colors.json
@@ -25,8 +26,8 @@ class ColorsController < ApplicationController
 
     respond_to do |format|
       if @color.save
-        format.html { redirect_to color_url(@color), notice: "Color was successfully created." }
-        format.json { render :show, status: :created, location: @color }
+        format.html { redirect_to colors_path, notice: "Color was successfully created." }
+        format.json { render :index, status: :created, location: @color }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @color.errors, status: :unprocessable_entity }

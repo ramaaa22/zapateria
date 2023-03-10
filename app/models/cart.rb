@@ -1,6 +1,7 @@
 class Cart < ApplicationRecord
     has_many :line_items
     belongs_to :cart, optional: true
+    belongs_to :user
 
     def add_article(article)
         current_article = line_items.find_by(article_id: article.id)

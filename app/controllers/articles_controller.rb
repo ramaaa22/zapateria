@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  before_action :authenticate_user!
   before_action :get_colors, only: %i[ new create copy save_copy]
   before_action :get_models, only: %i[ new create]
   before_action :set_article, only: %i[ show edit update destroy copy save_copy ]
@@ -25,6 +26,9 @@ class ArticlesController < ApplicationController
   # POST /articles or /articles.json
   def create
     @article = Article.new(article_params)
+    if @article.valid?
+      @article[:cod] = @article.get_code
+    end
     respond_to do |format|
       if @article.save
         format.html { redirect_to articles_url, notice: "Article was successfully created." }
@@ -62,9 +66,6 @@ class ArticlesController < ApplicationController
   end
 
   def save_copy
-    puts "from #{params[:from]}"
-    puts "to #{params[:to]}"
-    puts "article #{@article}"
     respond_to do |format|
       if save_articles
         format.html { redirect_to articles_url, notice: "Articles were successfully copied." }
@@ -116,7 +117,9 @@ class ArticlesController < ApplicationController
         end
       end
       array_to_save.each do |elem|
-        Article.create(elem)
+        new_art = Article.new(elem)
+        new_art[:cod]= new_art.get_code
+        new_art.save
       end
       ok
     end
