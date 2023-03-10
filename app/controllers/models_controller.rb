@@ -1,5 +1,6 @@
 class ModelsController < ApplicationController
-  before_action :authenticate_user!
+  include CurrentUser
+  before_action :authenticate_user!, :redirect_unless_admin
   before_action :get_brands, only: %i[ edit update new create ]
   before_action :get_categories, only: %i[ edit update new create]
   before_action :set_model, only: %i[ show edit update destroy ]

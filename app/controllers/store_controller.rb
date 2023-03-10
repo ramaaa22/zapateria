@@ -9,6 +9,7 @@ class StoreController < ApplicationController
   def show
     @model = Model.find(params[:id])
     @articles = @model.articles.ordered.active
+    @articles = @articles.group_by { |article| article.color_id}
   end
 
 end

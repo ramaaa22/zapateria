@@ -15,8 +15,8 @@ class Model < ApplicationRecord
 
   validates :name , presence: true
   validates :cod , presence: true , numericality: { only_integer: true }, length: { is: 3}
-  validates :brand_id , inclusion: Brand.all.ids
-  validates :category_id, inclusion: Category.all.ids
+  validates :brand_id , inclusion:  Brand.pluck(:id) 
+  validates :category_id, inclusion: Category.pluck(:id)
   validates_with ModelValidator
 
 
@@ -25,7 +25,7 @@ class Model < ApplicationRecord
   end
 
   def brand_with_model
-    "#{brand.name} - #{cod}"
+    "#{brand.name} - #{name}"
   end
 
   scope :ordered, -> { includes(:brand).order('brands.cod ASC').order(:cod) }

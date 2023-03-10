@@ -13,16 +13,19 @@
   <body>
     <% if user_signed_in? %>
       <nav>
-        <%=link_to "Brands", brands_path %>
-        <%=link_to "Colors", colors_path %>
-        <%=link_to "Categories", categories_path %>
-        <%=link_to "Models", models_path %>
-        <%=link_to "Articles", articles_path %>
+        <% if current_user.role ==='Admin' %>
+          <%=link_to "Brands", brands_path %>
+          <%=link_to "Colors", colors_path %>
+          <%=link_to "Categories", categories_path %>
+          <%=link_to "Models", models_path %>
+          <%=link_to "Articles", articles_path %>
+        <% end %>
         <%=link_to "Store", store_index_path %>
-        <%#=link_to "Cart", cart_path(@cart) %>
         <%= link_to "Log Out", destroy_user_session_path %>
       </nav>
     <% end %>
-    <%= yield %>
+    <main class ='<%= controller.controller_name %>'>
+      <%= yield %>
+    </main>
   </body>
 </html>

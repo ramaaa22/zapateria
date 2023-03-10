@@ -1,5 +1,6 @@
 class BrandsController < ApplicationController
-  before_action :authenticate_user!
+  include CurrentUser
+  before_action :authenticate_user!, :redirect_unless_admin
   before_action :set_brand, only: %i[ show edit update destroy ]
 
   # GET /brands or /brands.json

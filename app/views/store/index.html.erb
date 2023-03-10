@@ -12,6 +12,6 @@
 
 <div>
     <% if @cart.line_items.any?%>
-        <%= link_to "Go to pay", new_order_path %>
+        <%= link_to "Go to pay", @cart %>
     <% end %>
 </div>

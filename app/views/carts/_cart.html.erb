@@ -9,7 +9,7 @@
             <span class="leaderboard__name"> <%= line_item.article.model.name %> <span>$<%= line_item.total_price %></span> </span>
             <span class="leaderboard__value">  Nº<%= line_item.article.num %> <span><%= line_item.article.color.name %></span></span>
         </article>
-
+        <%= button_to "Remove item", line_item, method: :delete %>
     <% end %>
     
   </main>
