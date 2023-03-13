@@ -5,7 +5,6 @@ class Cart < ApplicationRecord
 
     def add_article(article)
         current_article = line_items.find_by(article_id: article.id)
-
         if current_article
             if article.stock > current_article.quantity
                 current_article.quantity +=1
@@ -20,12 +19,18 @@ class Cart < ApplicationRecord
         current_article
     end
 
-    def total_price
+    def totals
+        data = {
+            :sum => 0,
+            :total_items => 0
+        }
         sum = 0
         line_items.each do |line_item|
-            sum += line_item.total_price
+            data[:sum] += line_item.total_price
+            data[:total_items] += line_item.quantity
         end
-        sum
+        data
     end
+
     
 end

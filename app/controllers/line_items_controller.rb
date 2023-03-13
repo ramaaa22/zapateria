@@ -2,7 +2,7 @@ class LineItemsController < ApplicationController
 include CurrentCart
   before_action :authenticate_user!
   before_action :set_cart
-  before_action :set_line_item, only: %i[ show edit update destroy ]
+  before_action :set_line_item, only: %i[ show edit update destroy decrement ]
 
   # GET /line_items or /line_items.json
   def index
@@ -50,6 +50,19 @@ include CurrentCart
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+
+  def decrement
+    puts "decrementooo"
+    puts "esto #{@line_item.quantity}"
+    @line_item.quantity -=1
+    @line_item.save
+    respond_to do |format|
+      format.html { redirect_to @cart }
+      format.json { render :show, status: :ok, location: @line_item }
+    
     end
   end
 

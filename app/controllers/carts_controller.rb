@@ -9,7 +9,6 @@ class CartsController < ApplicationController
 
 
   def destroy
-    puts "ingreso aca"
     respond_to do |format|
       if  @cart.destroy
         format.html { redirect_to store_index_path, notice: "Cart was successfully destroyed." }

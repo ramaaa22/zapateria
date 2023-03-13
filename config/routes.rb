@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   resources :orders
   resources :carts
-  resources :line_items
+  resources :line_items do
+    member do
+      put 'decrement'
+    end
+  end
   resources :store
 
   get 'admin/index'

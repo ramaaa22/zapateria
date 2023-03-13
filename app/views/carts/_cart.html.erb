@@ -13,9 +13,14 @@
                     <h3 class="subtitle">Nº <%= line_item.article.num%> - <%= line_item.article.color.name%> </h3>
                   </div>
                   <div class="counter">
-                    <div class="btn">+</div>
+                    
+                    <%= button_to '+', line_items_path(article_id: line_item.article) %>
+                    
                     <div class="count"> <%= line_item.quantity%> </div>
-                    <div class="btn">-</div>
+                    
+                    <% if line_item.quantity!=1 %>
+                      <%= button_to '-', decrement_line_item_path(line_item), method: :put %>
+                    <% end %>
                   </div>
                   <div class="prices">
                     <div class="amount"> <%= number_to_currency(line_item.total_price) %> </div>
@@ -33,9 +38,9 @@
       <div class="total">
         <div>
           <div class="Subtotal">Sub-Total</div>
-          <div class="items"> <%= @cart.line_items.count%> </div>
+          <div class="items"> <%= @cart.totals[:total_items]%> </div>
         </div>
-        <div class="total-amount"><%= number_to_currency(@cart.total_price) %></div>
+        <div class="total-amount"><%= number_to_currency(@cart.totals[:sum]) %></div>
       </div>
       <%= button_to "Checkout", new_order_path, method: 'get', class: "button" %>
       <%= button_to "Continue shopping", store_index_path, method: 'get' ,  class: "button" %></div>
