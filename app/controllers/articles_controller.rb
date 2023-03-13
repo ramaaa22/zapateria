@@ -67,6 +67,10 @@ include CurrentUser
   end
 
   def save_copy
+    if !validate_range
+      #flash.now[:notice] = "We have exactly  books available."
+      redirect_to copy_article_path, alert: "Check the parameters" and return
+    end
     respond_to do |format|
       if save_articles
         format.html { redirect_to articles_url, notice: "Articles were successfully copied." }
@@ -125,5 +129,15 @@ include CurrentUser
       ok
     end
 
+    def validate_range
+      from = params[:from].to_i
+      to = params[:to].to_i
+      range = 15..45
+      puts "esto #{from} #{to}"
+      puts range.include?(from)
+      puts range.include?(to)
+      puts from<= to
+      return (range.include?(from) && range.include?(to) && from<=to)
+    end
     
 end

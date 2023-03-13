@@ -9,7 +9,10 @@ class Cart < ApplicationRecord
         if current_article
             if article.stock > current_article.quantity
                 current_article.quantity +=1
+            else
+                return false
             end
+
         else
             current_article = line_items.build(article_id: article.id)
             current_article.quantity = 1

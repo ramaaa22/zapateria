@@ -24,7 +24,6 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    puts "entro aca"
     @order = Order.new(order_params)
     @order.add_articles_in_cart(@cart)
     respond_to do |format|
