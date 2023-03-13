@@ -1,14 +1,7 @@
 <%= form_with(model: model) do |form| %>
   <% if model.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(model.errors.count, "error") %> prohibited this model from being saved:</h2>
+      <%= render 'layouts/errors', errors: model.errors %>
 
-      <ul>
-        <% model.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
   <% end %>
 
   <div>
@@ -24,12 +17,12 @@
 
   <div>
     <%= form.label :brand_id, style: "display:block" %>
-    <%= form.select :brand_id, @brands %>
+    <%= form.collection_select :brand_id, @brands, :id , :name ,{ include_blank: 'Select a brand' } %>
   </div>
 
   <div>
     <%= form.label :category_id, style: "display:block" %>
-    <%= form.select :category_id, @categories %>
+    <%= form.collection_select :category_id, @categories, :id , :name, { include_blank: 'Select a category'} %>
   </div>
 
   <div>

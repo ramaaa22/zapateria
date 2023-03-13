@@ -1,0 +1,17 @@
+<p> <%= notice %> </p>
+<div class="cards">
+    <% @models.each do |model| %>
+        <div class="card">
+            <h1> <%= model.name%> </h1>
+            <p class="price"> <%= model.brand.name %> </p>
+            <p> <%= model.category.name%> </p>
+            <%= button_to "Buy", store_path(model), :method => :get %>
+        </div>
+    <% end %>
+</div>
+
+<div>
+    <% if @cart.line_items.any?%>
+        <%= link_to "Go to pay", @cart %>
+    <% end %>
+</div>

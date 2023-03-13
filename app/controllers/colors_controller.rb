@@ -1,4 +1,6 @@
 class ColorsController < ApplicationController
+  include CurrentUser
+  before_action :authenticate_user!, :redirect_unless_admin
   before_action :set_color, only: %i[ show edit update destroy ]
 
   # GET /colors or /colors.json
@@ -25,8 +27,8 @@ class ColorsController < ApplicationController
 
     respond_to do |format|
       if @color.save
-        format.html { redirect_to color_url(@color), notice: "Color was successfully created." }
-        format.json { render :show, status: :created, location: @color }
+        format.html { redirect_to colors_path, notice: "Color was successfully created." }
+        format.json { render :index, status: :created, location: @color }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @color.errors, status: :unprocessable_entity }
@@ -49,11 +51,14 @@ class ColorsController < ApplicationController
 
   # DELETE /colors/1 or /colors/1.json
   def destroy
-    @color.destroy
-
     respond_to do |format|
-      format.html { redirect_to colors_url, notice: "Color was successfully destroyed." }
-      format.json { head :no_content }
+      if @color.destroy
+        format.html { redirect_to colors_url, notice: "Color was successfully destroyed." }
+        format.json { head :no_content }
+      else
+        format.html { render :show, status: :unprocessable_entity }
+        format.json { render json: @color.errors, status: :unprocessable_entity }
+      end
     end
   end
 

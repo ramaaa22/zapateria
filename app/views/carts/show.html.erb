@@ -1,0 +1,9 @@
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+
+<% if !@cart.line_items.empty? %>
+  <%= render @cart %>
+<% else %>
+  <h2>The cart is empty!</h2>
+  <%= button_to "Continue shopping", store_index_path, method: 'get' %>
+<% end %>

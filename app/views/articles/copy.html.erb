@@ -1,0 +1,30 @@
+<h1>Copy articles</h1>
+
+
+<p style="color: red"><%= alert %></p>
+
+<%= render @article %>
+
+<%= form_with url:save_copy_article_path do |form| %>
+  
+    <div>
+        <%= form.label :color, style: "display: block" %>
+        <%= form.collection_select :color , @colors, :id , :name %>
+    </div>
+
+    <div>
+        <%= form.label :from, style: "display: block" %>
+        <%= form.number_field :from , :required => 'required' %>
+    </div>
+
+  
+
+    <div>
+        <%= form.label :to, style: "display: block" %>
+        <%= form.number_field :to, :required => 'required' %>
+    </div>
+
+  <div>
+    <%= form.submit "Copy articles" %>
+  </div>
+<% end %>

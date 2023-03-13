@@ -2,6 +2,10 @@
 
 <%= render @brand %>
 
+<% if @brand.models.any? %>
+  <%= render 'models/model_table', models:@brand.models %>
+<% end %>
+
 <div>
   <%= link_to "Edit this brand", edit_brand_path(@brand) %> |
   <%= link_to "Back to brands", brands_path %>

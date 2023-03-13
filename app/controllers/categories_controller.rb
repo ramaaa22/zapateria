@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  include CurrentUser
+  before_action :authenticate_user!, :redirect_unless_admin
   before_action :set_category, only: %i[ show edit update destroy ]
 
   # GET /categories or /categories.json
@@ -25,8 +27,8 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to category_url(@category), notice: "Category was successfully created." }
-        format.json { render :show, status: :created, location: @category }
+        format.html { redirect_to categories_path, notice: "Category was successfully created." }
+        format.json { render :index, status: :created, location: @category }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @category.errors, status: :unprocessable_entity }
@@ -49,12 +51,17 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1 or /categories/1.json
   def destroy
-    @category.destroy
-
     respond_to do |format|
-      format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
-      format.json { head :no_content }
+      if  @category.destroy
+        format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
+        format.json { head :no_content }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @category.errors, status: :unprocessable_entity }
+      end
     end
+
+    
   end
 
   private

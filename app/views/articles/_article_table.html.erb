@@ -1,0 +1,25 @@
+<p style="color: green"><%= notice %></p>
+
+<table>
+    <tr>
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Cod</th>
+      <th>Stock</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+    <% articles.each do |article| %>
+      <tr>
+        <td><%= article.brand.name %></td>
+        <td><%= article.model.name %></td>
+        <td><%= article.cod %></td>
+        <td><%= article.stock %></td>
+        <td>$<%= article.price %></td>
+        <td>
+          <%= link_to "Show this article", article %>
+          <%= link_to "Copy this article", copy_article_path(article) %>
+        </td>
+      </tr>
+    <% end %>
+  </table>

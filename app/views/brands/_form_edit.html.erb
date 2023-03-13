@@ -1,0 +1,20 @@
+<%= form_with(model: brand) do |form| %>
+  <% if brand.errors.any? %>
+    <%= render 'layouts/errors', errors: brand.errors%>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :cod, style: "display: block" %>
+    <%= form.text_field :cod %>
+  </div>
+  
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -3,11 +3,8 @@
 <h1>Models</h1>
 
 <div id="models">
-    <% @models.each do |model| %>
-    
-        <%= render model %>
-
-      
+    <% if @models %>
+        <%= render 'model_table', models:@models%>
     <% end %>
 </div>
 

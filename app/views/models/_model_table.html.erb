@@ -1,0 +1,18 @@
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Brand</th>
+      <th>Category</th>
+      <th>Action</th>
+    </tr>
+    <% models.each do |model| %>
+      <tr>
+        <td><%= model.name %></td>
+        <td><%= model.cod %></td>
+        <td><%= model.brand.name %></td>
+        <td><%= model.category.name %></td>
+        <td><%= link_to "Show this model", model %></td>
+      </tr>
+    <% end %>
+  </table>

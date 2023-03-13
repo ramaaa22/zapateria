@@ -1,0 +1,15 @@
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Action</th>
+    </tr>
+    <% brands.each do |brand| %>
+      <tr>
+        <td><%= brand.name %></td>
+        <td><%= brand.cod %></td>
+        <td><%= link_to "Show this brand", brand %></td>
+      </tr>
+    <% end %>
+</table>
+

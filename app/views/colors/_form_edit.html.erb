@@ -1,0 +1,17 @@
+<%= form_with(model: color) do |form| %>
+  <% if color.errors.any? %>
+    <%= render 'layouts/errors', errors: color.errors %>
+
+  <% end %>
+
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,16 +1,18 @@
 class ModelsController < ApplicationController
-  before_action :get_brand, only: %i[ create update]
-  before_action :get_brands, only: %i[ new create ]
-  before_action :get_categories, only: %i[ new create]
+  include CurrentUser
+  before_action :authenticate_user!, :redirect_unless_admin
+  before_action :get_brands, only: %i[ edit update new create ]
+  before_action :get_categories, only: %i[ edit update new create]
   before_action :set_model, only: %i[ show edit update destroy ]
 
   # GET /models or /models.json
   def index
-    @models = Model.all
+    @models = Model.ordered
   end
 
   # GET /models/1 or /models/1.json
   def show
+    @articles = @model.articles.ordered
   end
 
   # GET /models/new
@@ -25,13 +27,11 @@ class ModelsController < ApplicationController
   # POST /models or /models.json
   def create
     @model = Model.new(model_params)  
-    if exists_cod?
-      return
-    end
+
     respond_to do |format|
       if @model.save
-        format.html { redirect_to model_url(@model), notice: "Model was successfully created." }
-        format.json { render :show, status: :created, location: @model }
+        format.html { redirect_to models_path, notice: "Model was successfully created." }
+        format.json { render :index, status: :created, location: @model }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @model.errors, status: :unprocessable_entity }
@@ -41,10 +41,6 @@ class ModelsController < ApplicationController
 
   # PATCH/PUT /models/1 or /models/1.json
   def update
-    if exists_cod?
-      return
-    end
-
     respond_to do |format|
       if @model.update(model_params)
         format.html { redirect_to model_url(@model), notice: "Model was successfully updated." }
@@ -58,11 +54,14 @@ class ModelsController < ApplicationController
 
   # DELETE /models/1 or /models/1.json
   def destroy
-    @model.destroy
-
     respond_to do |format|
-      format.html { redirect_to models_url, notice: "Model was successfully destroyed." }
-      format.json { head :no_content }
+      if @model.destroy
+        format.html { redirect_to models_url, notice: "Model was successfully destroyed." }
+        format.json { head :no_content }
+      else
+        format.html { render :show, status: :unprocessable_entity }
+        format.json { render json: @model.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -77,31 +76,11 @@ class ModelsController < ApplicationController
       params.require(:model).permit(:name, :cod, :brand_id, :category_id)
     end
 
-    def get_brand
-      brand_id = params[:model][:brand_id]
-      @brand = Brand.find(brand_id)
-    end
-
-    def exists_cod?
-      code_to_find = model_params[:cod]
-      found = Model.find_by cod: code_to_find
-      if (found)
-        return found.brand_id == @brand.id
-      end
-      return false
-    end
-
     def get_brands
-      @brands = {}
-      Brand.all.each do |brand|
-        @brands["#{brand.name}"]= brand.id
-      end
+      @brands = Brand.all
     end
 
     def get_categories
-      @categories = {}
-      Category.all.each do |category|
-        @categories["#{category.name}"] = category.id
-      end
+      @categories = Category.all
     end
 end

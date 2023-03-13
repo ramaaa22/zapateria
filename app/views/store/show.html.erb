@@ -1,0 +1,23 @@
+<p style="color: red"><%= alert %></p>
+
+
+<h1>
+    <%= @model.name%>
+</h1>
+
+<div class ="cards">
+    <% @articles.each do |key, article| %>
+
+            <% article.each do |article| %>
+                <div class="card">
+                    <h1>Color: <%=article.color.name %> </h1>
+                    <h1>Num: <%=article.num%> </h1>
+                    <p class="price"> <%= number_to_currency(article.price) %> </p>
+                    <p>Stock: <%=article.stock %> </p>
+                    <%= button_to 'Add to cart', line_items_path(article_id: article), :method => :post %>
+                </div>
+            <% end %>
+        
+    <% end %>
+</div>
+
