@@ -25,10 +25,14 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
+    errors = @order.check_availability(@cart)
+    if errors.any?
+      redirect_to cart_path(@cart), alert: "Check the quantities" and return
+    end
     @order.add_articles_in_cart(@cart)
     respond_to do |format|
       if @order.save
-        format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
+        format.html { redirect_to store_index_path, notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new, status: :unprocessable_entity }

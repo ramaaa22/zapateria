@@ -1,17 +1,44 @@
-<div id="<%= dom_id cart %>">
+  <div class="CartContainer">
+        <div class="Header">
+            <h3 class="Heading">Shopping Cart</h3>
+            <h5 class="Action">
+              <%= link_to 'Empty cart', @cart, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+            </h5>
+        </div>
+            <% @cart.line_items.each do |line_item| %>
 
-  <main class="leaderboard__profiles">
-    <% @cart.line_items.each do |line_item| %>
-        <article class="leaderboard__profile">
-            <span class="leaderboard__name"> <%= line_item.article.brand.name %> </span>
-            <span class="leaderboard__name"> <%= line_item.article.model.name %> <span>$<%= line_item.total_price %></span> </span>
-            <span class="leaderboard__value">  Nº<%= line_item.article.num %> <span><%= line_item.article.color.name %></span></span>
-        </article>
-        <%= button_to "Remove item", line_item, method: :delete %>
-    <% end %>
-    
-  </main>
-  <h2>Total: <%=number_to_currency(@cart.total_price) %> </h2>
-</div>
+              <div class="Cart-Items">
+                  <div class="about">
+                    <h1 class="title"> <%= line_item.article.model.name%>  </h1>
+                    <h3 class="subtitle">Nº <%= line_item.article.num%> - <%= line_item.article.color.name%> </h3>
+                  </div>
+                  <div class="counter">
+                    <div class="btn">+</div>
+                    <div class="count"> <%= line_item.quantity%> </div>
+                    <div class="btn">-</div>
+                  </div>
+                  <div class="prices">
+                    <div class="amount"> <%= number_to_currency(line_item.total_price) %> </div>
+                    <div class="remove"> 
+                      <%= link_to 'Delete', line_item_path(line_item),
+                      data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+                    </div>
+                  </div>
+              </div>
+            <% end %>
 
+        
+      <hr> 
+      <div class="checkout">
+      <div class="total">
+        <div>
+          <div class="Subtotal">Sub-Total</div>
+          <div class="items"> <%= @cart.line_items.count%> </div>
+        </div>
+        <div class="total-amount"><%= number_to_currency(@cart.total_price) %></div>
+      </div>
+      <%= button_to "Checkout", new_order_path, method: 'get', class: "button" %>
+      <%= button_to "Continue shopping", store_index_path, method: 'get' ,  class: "button" %></div>
 </div>
+    </div>
+

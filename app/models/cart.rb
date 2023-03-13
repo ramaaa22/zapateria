@@ -1,6 +1,6 @@
 class Cart < ApplicationRecord
-    has_many :line_items
-    belongs_to :cart, optional: true
+    has_many :line_items, dependent: :delete_all
+    #belongs_to :cart, optional: true
     belongs_to :user
 
     def add_article(article)
